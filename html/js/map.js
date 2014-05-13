@@ -11,22 +11,26 @@
       return int;
     };
 
-    var createMap = function (stations) {
-        _.each(stations, function (s) {
-            s.lat_lng = new L.LatLng(s.lat, s.lng);
-        });
-        var lat_lngs = _.pluck(stations, "lat_lng");
-        var bounds = L.latLngBounds(lat_lngs);
+    var buildInfo = function () {
+        var info = L.control();
+        var station_tmpl = _.template($(".tmpl.station").html());
+        var hover_help = "Hover over any station for details. Click on a station to zoom in."
 
-        var map = new L.Map("toner", {
-            scrollWheelZoom: false,
-            minZoom: 9
-        });
-        map.fitBounds(bounds);
-        var tile_layer = new L.StamenTileLayer("toner");
-        //tile_layer.setOpacity(0.5)
-        map.addLayer(tile_layer);
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
 
+        info.update = function (station) {
+            this._div.innerHTML = station ? station_tmpl(station) : hover_help;
+        };
+
+        return info;
+        
+    };
+
+    var buildMarkers = function(stations, info, map) {
         var trip_totals = _.pluck(stations, "trips_total");
         var max_trips = Math.max.apply(Math.max, trip_totals);
         
@@ -38,23 +42,6 @@
         var scaleRadius = function (total, max) {
             return 10 * Math.sqrt(Math.max(0.1, total / max));
         };
-
-        var station_tmpl = _.template($(".tmpl.station").html());
-
-        var info = L.control();
-
-        info.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-            this.update();
-            return this._div;
-        };
-
-        var hover_help = "Hover over any station for details. Click on a station to zoom in."
-        info.update = function (station) {
-            this._div.innerHTML = station ? station_tmpl(station) : hover_help;
-        };
-
-        info.addTo(map);
 
         var highlightFeature = function (e) {
             var marker = e.target;
@@ -96,11 +83,46 @@
             return marker;
         });
 
+        return markers;
+    };
+
+    var buildMap = function (stations, tile_layers, div) {
+
+        _.each(stations, function (s) {
+            s.lat_lng = new L.LatLng(s.lat, s.lng);
+        });
+
+        var lat_lngs = _.pluck(stations, "lat_lng");
+        var bounds = L.latLngBounds(lat_lngs);
+
+        var map = new L.Map(div, {
+            scrollWheelZoom: false,
+            minZoom: 9
+        });
+
+        map.fitBounds(bounds);
+
+        _.each(tile_layers, function (layer) {
+            map.addLayer(layer)
+        });
+
+        var info = buildInfo(map);
+        var markers = buildMarkers(stations, info, map);
+
+        info.addTo(map);
         L.layerGroup(markers)
             .addTo(map);
+    };
 
-    }
+    var mapStations = function (stations_url, tile_layers, div) {
+        $.getJSON(stations_url, function (stations) {
+            buildMap(stations, tile_layers, div);
+        });
+    };
 
-    $.getJSON("data/" + location.hash.slice(1) + ".json", createMap);
+    root.BuzzFeedNews = root.BuzzFeedNews || {};
+    root.BuzzFeedNews.local = {
+        mapStations: mapStations
+    };
         
 }).call(this);

@@ -13,12 +13,13 @@
         <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
     </head>
     <body>
-        <div id="toner" class="map"></div>
+        <div class="maps"></div>
         <script type="text/template" class="tmpl station">
             <div class="station-info station-name"><%= name %></div>
             <div class="station-info"><span class="station-pct"><%= Math.round(fpct_total * 1000) / 10 %>%</span> female ridership</div>
             <div class="station-info station-trips"><%= commafy(trips_total) %> total trips</div>
         </script>
         <script src="js/map.js"></script>
+        <script src="js/multimap.js"></script>
     </body>
 </html>

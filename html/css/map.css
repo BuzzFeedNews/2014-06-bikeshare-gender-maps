@@ -5,12 +5,32 @@ body, html {
     padding: 0;
 }
 
+.maps {
+    width: 100%;
+    max-width: 1293px;
+    margin: 0 auto;
+}
+
+.map-group {
+    overflow: auto;    
+    width: 100%; 
+}
+
+.map-holder {
+    float: left;
+    width: 98%;
+    max-width: 400px;
+    height: 500px;
+    padding: 1%;
+}
+
 .map {
+    border: 1px solid #000;
     width: 100%;
     height: 100%;
 }
 
-.leaflet-right {
+.leaflet-top.leaflet-right {
     width: 40%;    
 }
 
