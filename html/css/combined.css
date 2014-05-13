@@ -1,0 +1,32 @@
+body, html {
+    width: 100%;
+    height: 600px;
+    margin: 0;
+    padding: 0;
+}
+
+.maps {
+    width: 100%;
+    max-width: 1323px;    
+    margin: 0 auto;
+    height: 100%;
+}
+
+.map {
+    height: 100%;
+    margin: 10px;
+    border: 1px solid #000;
+}
+
+.nyc {
+    width: 400px;    
+}
+
+.boston {
+    width: 400px;    
+}
+
+.chicago {
+    width: 400px;    
+}
+

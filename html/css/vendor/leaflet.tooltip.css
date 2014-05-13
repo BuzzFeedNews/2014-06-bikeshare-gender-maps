@@ -1,0 +1,27 @@
+.leaflet-tooltip-container {
+    z-index: 4;
+}
+
+.leaflet-tooltip {
+    z-index: 10;
+    display: none;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.4);
+    -webkit-border-radius: 1px;
+	border-radius: 1px;
+    border: 1px solid #bbb;
+    background-color: #fff;
+    cursor: default;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+
+    opacity: 0;
+	-webkit-transition: opacity 150ms linear;
+	-moz-transition: opacity 150ms linear;
+	-o-transition: opacity 150ms linear;
+	transition: opacity 150ms linear;    
+}
+
+.leaflet-tooltip.leaflet-tooltip-fade {
+    opacity: 1;
+}
