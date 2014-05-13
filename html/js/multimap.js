@@ -37,10 +37,10 @@
     };
 
     var layer_groups = [
-        [ layers.shaded, layers.acetate_roads ],
+//        [ layers.shaded, layers.acetate_roads ],
         [ layers.toner ],
-        [ layers.watercolor ],
-        [ layers.terrain_bg, layers.acetate_roads ]
+//        [ layers.watercolor ],
+        [ layers.watercolor, layers.acetate_roads ]
     ];
 
     var $maps = $(".maps");

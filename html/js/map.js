@@ -34,13 +34,16 @@
         var trip_totals = _.pluck(stations, "trips_total");
         var max_trips = Math.max.apply(Math.max, trip_totals);
         
-        var scale = colorbrewer.RdBu[10].reverse();
+        //var scale = chroma.scale(['#0077EE', '#EE3322'])
+        var scale = chroma.scale(['#00CCFF', '#FF0099'])
+            .domain([0.10, 0.90], 8)
+            .mode('lab');
         var scaleColor = function (pct) {
-            return scale[Math.round(pct * 10 * 2)];
+            return scale(pct).hex();
         }; 
 
         var scaleRadius = function (total, max) {
-            return 10 * Math.sqrt(Math.max(0.1, total / max));
+            return 10 * Math.sqrt(Math.max(0.2, (total / max)));
         };
 
         var highlightFeature = function (e) {
@@ -48,7 +51,7 @@
             marker._styles = marker.options;
             marker.setStyle({
                 color: "#ee3322",
-                weight: 4,
+                weight: 1,
                 opacity: 1
             });
             info.update(marker.station);
@@ -67,8 +70,8 @@
         var markers = _.map(stations, function (s) {
             var marker = L.circleMarker(s.lat_lng, {
                 radius: scaleRadius(s.trips_total, max_trips),
-                weight: 2,
-                opacity: 0.75,
+                weight: 1,
+                opacity: 1,
                 color: "#000",
                 fillOpacity: 1,
                 fillColor: scaleColor(s.fpct_total)
