@@ -10,6 +10,17 @@ body, html {
     height: 100%;
 }
 
+.leaflet-right {
+    width: 40%;    
+}
+
+.info {
+    background-color: #FFF;    
+    border: 1px solid #000;
+    padding: 0.25em 0.5em;
+    width: 100%;
+}
+
 .station-name {
 }
 

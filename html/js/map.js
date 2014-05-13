@@ -19,7 +19,8 @@
         var bounds = L.latLngBounds(lat_lngs);
 
         var map = new L.Map("toner", {
-            scrollWheelZoom: false    
+            scrollWheelZoom: false,
+            minZoom: 9
         });
         map.fitBounds(bounds);
         var tile_layer = new L.StamenTileLayer("toner");
@@ -40,6 +41,42 @@
 
         var station_tmpl = _.template($(".tmpl.station").html());
 
+        var info = L.control();
+
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+
+        var hover_help = "Hover over any station for details. Click on a station to zoom in."
+        info.update = function (station) {
+            this._div.innerHTML = station ? station_tmpl(station) : hover_help;
+        };
+
+        info.addTo(map);
+
+        var highlightFeature = function (e) {
+            var marker = e.target;
+            marker._styles = marker.options;
+            marker.setStyle({
+                color: "#ee3322",
+                weight: 4,
+                opacity: 1
+            });
+            info.update(marker.station);
+        };
+
+        var resetHighlight = function (e) {
+            var marker = e.target;
+            marker.setStyle(marker._styles);
+            info.update();
+        };
+
+        var zoomHighlight = function (e) {
+            map.setView(e.target._latlng, map.getZoom() + 1);
+        };
+
         var markers = _.map(stations, function (s) {
             var marker = L.circleMarker(s.lat_lng, {
                 radius: scaleRadius(s.trips_total, max_trips),
@@ -47,14 +84,21 @@
                 opacity: 0.75,
                 color: "#000",
                 fillOpacity: 1,
-                fillColor: scaleColor(s.fpct_total),
+                fillColor: scaleColor(s.fpct_total)
             });
-            marker.bindPopup(station_tmpl(s));
+            marker.station = s;
+            marker.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomHighlight
+            });
+            //marker.bindPopup(station_tmpl(s));
             return marker;
         });
 
         L.layerGroup(markers)
             .addTo(map);
+
     }
 
     $.getJSON("data/" + location.hash.slice(1) + ".json", createMap);
