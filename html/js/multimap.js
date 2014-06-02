@@ -40,7 +40,7 @@
 //        [ layers.shaded, layers.acetate_roads ],
         [ layers.toner ],
 //        [ layers.watercolor ],
-        [ layers.watercolor, layers.acetate_roads ]
+//        [ layers.watercolor, layers.acetate_roads ]
     ];
 
     var $maps = $(".maps");

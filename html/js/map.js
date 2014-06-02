@@ -35,8 +35,8 @@
         var max_trips = Math.max.apply(Math.max, trip_totals);
         
         //var scale = chroma.scale(['#0077EE', '#EE3322'])
-        var scale = chroma.scale(['#00CCFF', '#FF0099'])
-            .domain([0.10, 0.90], 8)
+        var scale = chroma.scale(['#00CCFF', "#FFF", '#FF0099'])
+            .domain([0.0, 0.25, 0.50], 20)
             .mode('lab');
         var scaleColor = function (pct) {
             return scale(pct).hex();
