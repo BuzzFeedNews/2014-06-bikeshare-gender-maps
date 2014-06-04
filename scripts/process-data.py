@@ -28,18 +28,26 @@ def get_female_pct(subset):
     return round(mean, ROUNDING)
 
 def calculate_gender(program, date_range=(None, None)):
+    # Limit by date range
     trips = program.trips.between_times(*date_range)
     if not len(trips.df): raise Exception("No trips during date range.")
+
+    # Limit to only trips that contain gender information
     gender_constraint = trips["rider_gender"].notnull()
     gendered_subset = TripSubset(trips[gender_constraint])
+
+    # Aggregated data by station, and calculate derived variables
     station_data = gendered_subset.by_station().set_index("station_id")
     station_data["fpct_started"] = gendered_subset.groupby("start_station").apply(get_female_pct)
     station_data["fpct_ended"] = gendered_subset.groupby("end_station").apply(get_female_pct)
     total_fpct = ((station_data["fpct_started"] * station_data["trips_started"]) +\
         (station_data["fpct_ended"] * station_data["trips_ended"])) / (station_data["trips_total"])
     station_data["fpct_total"] = total_fpct.apply(lambda x: round(x, ROUNDING))
+
+    # Add station information
     stations = program.stations.set_index("id")[["name", "lat", "lng"]]\
         .join(station_data)
+
     return stations.sort("trips_total", ascending=False)
     
 def main():
