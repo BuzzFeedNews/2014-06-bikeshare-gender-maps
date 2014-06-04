@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from bikeshares import programs
 from bikeshares.program import TripSubset
+import pandas as pd
 import argparse
 import sys
 
@@ -18,6 +19,7 @@ def parse_args():
     parser.add_argument("--program", type=get_program)
     parser.add_argument("--trips")
     parser.add_argument("--stations")
+    parser.add_argument("--date-range", nargs=2)
     args = parser.parse_args()
     return args
 
@@ -25,8 +27,11 @@ def get_female_pct(subset):
     mean = (subset["rider_gender"] == "F").mean()
     return round(mean, ROUNDING)
 
-def calculate_gender(program):
-    gendered_subset = TripSubset(program.trips[program.trips["rider_gender"].notnull()])
+def calculate_gender(program, date_range=(None, None)):
+    trips = program.trips.between_times(*date_range)
+    if not len(trips.df): raise Exception("No trips during date range.")
+    gender_constraint = trips["rider_gender"].notnull()
+    gendered_subset = TripSubset(trips[gender_constraint])
     station_data = gendered_subset.by_station().set_index("station_id")
     station_data["fpct_started"] = gendered_subset.groupby("start_station").apply(get_female_pct)
     station_data["fpct_ended"] = gendered_subset.groupby("end_station").apply(get_female_pct)
@@ -41,7 +46,7 @@ def main():
     args = parse_args()
     program = args.program()
     program.load_trips(args.trips).load_stations(args.stations)
-    calculations = calculate_gender(program)
+    calculations = calculate_gender(program, date_range=args.date_range)
     calculations.to_json(sys.stdout, orient="records")
     
 if __name__ == "__main__":
