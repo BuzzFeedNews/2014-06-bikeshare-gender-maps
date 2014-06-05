@@ -19,7 +19,7 @@
     var buildInfo = function () {
         var info = L.control();
         var station_tmpl = _.template($(".tmpl.station").html());
-        var hover_help = "Hover over any station for details. Click on a station to zoom in."
+        var hover_help = "Hover over any station for details. Click on a marker to zoom in."
 
         info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info map-control');
@@ -39,19 +39,27 @@
         marker._styles = marker.options;
         marker.setStyle({
             color: "#ee3322",
-            weight: 2,
+            weight: 3,
             opacity: 1
         });
+        marker.prevPos = marker.$container.index();
+        marker.bringToFront();
         info.update(marker.station);
     };
 
     var resetMarker = function (marker, info) {
         marker.setStyle(marker._styles);
+        var $c = marker.$container;
+        $c.insertBefore($c.parent().children()[marker.prevPos])
         info.update();
     };
 
     var zoomToMarker = function (marker, map) {
         map.setView(marker._latlng, map.getZoom() + 1);
+    };
+
+    var panToMarker = function (marker, map) {
+        map.panTo(marker._latlng);
     };
 
     var buildMarkers = function(stations, map, info) {
@@ -78,7 +86,7 @@
                 opacity: 1,
                 color: "#000",
                 fillOpacity: 1,
-                fillColor: scaleColor(s.fpct_total)
+                fillColor: scaleColor(s.fpct_total),
             });
 
             // Attach station data
@@ -88,7 +96,10 @@
             marker.on({
                 mouseover: function (e) { highlightMarker(e.target, info); },
                 mouseout: function (e) { resetMarker(e.target, info); },
-                click: function (e) { zoomToMarker(e.target, map); }
+                click: function (e) { zoomToMarker(e.target, map); },
+                add: function (e) {
+                    marker.$container = $(marker._container);
+                }
             });
 
             return marker;
@@ -133,7 +144,7 @@
                         resetMarker(m, info);
                     });
                     $station.on("click", function (e) {
-                        zoomToMarker(m, map);
+                        panToMarker(m, map);
                     });
                     return $station;
                 });
@@ -158,6 +169,7 @@
 
         var map = new L.Map(div, {
             scrollWheelZoom: false,
+            doubleClickZoom: false,
             minZoom: 9,
             attributionControl: false
         });
