@@ -18,7 +18,7 @@
         <!-- info div -->
         <script type="text/template" class="tmpl station">
             <div class="station-info station-name"><%= name %></div>
-            <div class="station-info"><span class="station-pct"><%= percentify(fpct_total, 1) %>%</span> female ridership</div>
+            <div class="station-info"><span class="station-pct"><%= percentify(fpct_total, 0) %>%</span> female ridership</div>
             <div class="station-info station-trips"><%= commafy(trips_total) %> total trips</div>
         </script>
 
@@ -33,7 +33,7 @@
                     <% _.each(g.stations, function (s) { %>
                         <div class="station-group-station">
                             <span class="station-percent">
-                                <%= percentify(s.fpct_total, 1) %>%
+                                <%= percentify(s.fpct_total, 0) %>%
                             </span>
                             <%= s.name %>
                         </div>
