@@ -51,7 +51,7 @@
             marker._styles = marker.options;
             marker.setStyle({
                 color: "#ee3322",
-                weight: 1,
+                weight: 2,
                 opacity: 1
             });
             info.update(marker.station);
