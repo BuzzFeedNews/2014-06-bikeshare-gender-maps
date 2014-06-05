@@ -67,10 +67,17 @@ body, html {
     line-height: 1.5;
     margin-bottom: 0.25em;
     border-bottom: 1px solid #000;
+    padding: 0 0.25em;
 }
 
 .station-group-station {
     line-height: 1.5;
+    padding: 0 0.25em;
+}
+
+.station-group-station:hover {
+    cursor: pointer;
+    background-color: papayaWhip;
 }
 
 .station-group-station + .station-group-station {
@@ -79,7 +86,7 @@ body, html {
 
 .station-percent {
     font-weight: bold;
-    width: 4em;
+    width: 3em;
     display: inline-block;
 }
 
