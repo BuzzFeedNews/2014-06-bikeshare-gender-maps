@@ -106,7 +106,7 @@
         map.fitBounds(bounds);
 
         _.each(tile_layers, function (layer) {
-            map.addLayer(layer)
+            map.addLayer(layer);
         });
 
         var info = buildInfo(map);

@@ -10,7 +10,11 @@
     };
 
     var layers = {
-        toner: function () { return new L.StamenTileLayer("toner") },
+        toner: function () {
+            var layer = new L.StamenTileLayer("toner");
+            layer.setOpacity(0.5);
+            return layer;
+        },
         watercolor: function () { return new L.StamenTileLayer("watercolor") },
         terrain_bg: function () {
             return L.tileLayer('http://{s}.tile.stamen.com/terrain-background/{z}/{x}/{y}.png', {
