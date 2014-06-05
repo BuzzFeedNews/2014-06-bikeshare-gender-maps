@@ -38,7 +38,7 @@
     var highlightMarker = function (marker, info) {
         marker._styles = marker.options;
         marker.setStyle({
-            color: "#ee3322",
+            color: "#ffee00",
             weight: 3,
             opacity: 1
         });
