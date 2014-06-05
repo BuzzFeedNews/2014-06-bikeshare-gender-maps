@@ -103,11 +103,11 @@ body, html {
 }
 
 .top-stations {
-    display: block;
+    display: none;
 }
 
-@media (max-width: 640px) {
-    .top-stations {
+@media (min-height: 500px) {
+    .iframed-map-holder .top-stations {
         display: block;
     }
 }

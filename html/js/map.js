@@ -131,7 +131,7 @@
         ];
 
         holder.onAdd = function (map) {
-            var inner = L.DomUtil.create('div', 'map-control station-list');
+            var inner = L.DomUtil.create('div', 'map-control station-list top-stations');
             var $inner = $(inner);
             var $groups = _.map(groups, function (group) {
                 var $group = $(group_tmpl({ group: group }));
