@@ -126,8 +126,10 @@
 
         var map = new L.Map(div, {
             scrollWheelZoom: false,
-            minZoom: 9
+            minZoom: 9,
+            attributionControl: false
         });
+        L.control.attribution({position: 'bottomleft'}).addTo(map);
 
         map.fitBounds(bounds);
 
