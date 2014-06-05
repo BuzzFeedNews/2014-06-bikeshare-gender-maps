@@ -11,13 +11,18 @@
       return int;
     };
 
+    root.percentify = function (num, dec) {
+        var mult = Math.pow(10, dec);
+        return Math.round(num * 100 * mult) / mult;
+    };
+
     var buildInfo = function () {
         var info = L.control();
         var station_tmpl = _.template($(".tmpl.station").html());
         var hover_help = "Hover over any station for details. Click on a station to zoom in."
 
         info.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info');
+            this._div = L.DomUtil.create('div', 'info map-control');
             this.update();
             return this._div;
         };
@@ -28,6 +33,27 @@
 
         return info;
         
+    };
+
+    var buildTopStations = function (stations, markers, map) {
+        var holder = L.control({ position: "bottomright" });
+        var tmpl = _.template($(".tmpl.station-list").html());
+        var sorted = _.sortBy(stations, function (s) {
+            return s.fpct_total;    
+        });
+        var group_size = 5;
+        var groups = [
+            { name: "Least-Female", stations: sorted.slice(0, group_size) },
+            { name: "Most-Female", stations: sorted.slice(-1 * group_size).reverse() }
+        ];
+
+        holder.onAdd = function (map) {
+            var inner = L.DomUtil.create('div', 'map-control station-list');
+            inner.innerHTML = tmpl({ groups: groups });
+            return inner;
+        };
+
+        return holder;
     };
 
     var buildMarkers = function(stations, info, map) {
@@ -109,12 +135,13 @@
             map.addLayer(layer);
         });
 
-        var info = buildInfo(map);
+        var info = buildInfo();
         var markers = buildMarkers(stations, info, map);
+        var top_stations = buildTopStations(stations, markers, map);
 
         info.addTo(map);
-        L.layerGroup(markers)
-            .addTo(map);
+        top_stations.addTo(map);
+        L.layerGroup(markers).addTo(map);
     };
 
     var mapStations = function (stations_url, tile_layers, div) {

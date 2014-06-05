@@ -14,11 +14,35 @@
     </head>
     <body>
         <div class="iframed-map-holder"></div>
+
+        <!-- info div -->
         <script type="text/template" class="tmpl station">
             <div class="station-info station-name"><%= name %></div>
-            <div class="station-info"><span class="station-pct"><%= Math.round(fpct_total * 1000) / 10 %>%</span> female ridership</div>
+            <div class="station-info"><span class="station-pct"><%= percentify(fpct_total, 1) %>%</span> female ridership</div>
             <div class="station-info station-trips"><%= commafy(trips_total) %> total trips</div>
         </script>
+
+        <!-- top stations -->
+        <script type="text/template" class="tmpl station-list">
+            <% _.map(groups, function (g) { %>
+                <div class="station-group">
+                    <div class="station-group-name">
+                        <%= g.name %> Stations
+                    </div>
+                    <div class="station-group-stations">
+                    <% _.each(g.stations, function (s) { %>
+                        <div class="station-group-station">
+                            <span class="station-percent">
+                                <%= percentify(s.fpct_total, 1) %>%
+                            </span>
+                            <%= s.name %>
+                        </div>
+                    <% }) %>
+                    </div>
+                </div>
+            <% }) %>
+        </script>
+
         <script src="js/map.js"></script>
         <script src="js/frame.js"></script>
     </body>

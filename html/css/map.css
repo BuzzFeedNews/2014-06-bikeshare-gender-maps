@@ -36,15 +36,51 @@ body, html {
     background: #000;
 }
 
-.leaflet-top.leaflet-right {
-    width: 40%;    
+.leaflet-top.leaflet-right,
+.leaflet-bottom.leaflet-right {
+    width: 40%;
+    max-width: 250px;
 }
 
-.info {
+.map-control {
     background-color: #FFF;    
     border: 1px solid #000;
     padding: 0.25em 0.5em;
     width: 100%;
+}
+
+.info {
+}
+
+.station-list {
+    overflow: auto;
+}
+
+.station-group {
+    //float: left;
+    padding: 2%;
+    //width: 46%;
+}
+
+.station-group-name {
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: 0.25em;
+    border-bottom: 1px solid #000;
+}
+
+.station-group-station {
+    line-height: 1.5;
+}
+
+.station-group-station + .station-group-station {
+    border-top: 1px solid #CCC;
+}
+
+.station-percent {
+    font-weight: bold;
+    width: 4em;
+    display: inline-block;
 }
 
 .station-name {
@@ -58,4 +94,14 @@ body, html {
     border-top: 1px solid #CCC;    
     padding-top: 0.25em;
     margin-top: 0.25em;
+}
+
+.top-stations {
+    display: block;
+}
+
+@media (max-width: 640px) {
+    .top-stations {
+        display: block;
+    }
 }
