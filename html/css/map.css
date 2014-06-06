@@ -67,6 +67,12 @@ body, html {
     padding: 0 0.25em;
 }
 
+.weak {
+    font-weight: normal;
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
 .station-group .station {
     padding: 0.3em 0.25em;
     line-height: 1.3em;

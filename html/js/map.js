@@ -115,7 +115,11 @@
         var group_tmpl = _.template($(".tmpl.station-group").html());
         var item_tmpl = _.template($(".tmpl.station-item").html());
 
-        var sorted = _.sortBy(markers, function (m) {
+        var filtered = _.filter(markers, function (m) {
+            return m.station.trips_total >= 1000;
+        });
+
+        var sorted = _.sortBy(filtered, function (m) {
             return m.station.fpct_total;
         });
 
