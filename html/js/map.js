@@ -75,7 +75,9 @@
         }; 
 
         var scaleRadius = function (total, max) {
-            return 10 * Math.sqrt(Math.max(0.2, (total / max)));
+            var log_pct = Math.log(total) / Math.log(max);
+            var floored = Math.max(0.2, log_pct);
+            return 5 * Math.sqrt(floored);
         };
 
         var markers = _.map(stations, function (s) {
