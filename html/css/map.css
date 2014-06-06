@@ -69,27 +69,30 @@ body, html {
     padding: 0 0.25em;
 }
 
-.station-group-station {
+.station-group .station {
     padding: 0.3em 0.25em;
     line-height: 1.3em;
+    overflow: auto;
 }
 
-.station-group-station:hover {
+.station-group .station:hover {
     cursor: pointer;
     background-color: #ffee00;
 }
 
-.station-group-station + .station-group-station {
+.station-group .station + .station {
     border-top: 1px solid #CCC;
 }
 
-.station-percent {
+.station-group .station-percent {
+    float: left;
     font-weight: bold;
-    width: 3em;
-    display: inline-block;
+    width: 15%;
 }
 
-.station-name {
+.station-group .station-name {
+    float: left;
+    width: 75%;
 }
 
 .station-pct {

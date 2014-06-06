@@ -24,11 +24,13 @@
 
         <!-- station list item -->
         <script type="text/template" class="tmpl station-item">
-            <div class="station-group-station">
-                <span class="station-percent">
+            <div class="station">
+                <div class="station-percent">
                     <%= percentify(station.fpct_total, 0) %>%
-                </span>
-                <%= station.name %>
+                </div>
+                <div class="station-name">
+                    <%= station.name %>
+                </div>
             </div>
         </script>
 
