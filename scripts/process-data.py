@@ -46,7 +46,7 @@ def calculate_gender(program, date_range=(None, None)):
 
     # Add station information
     stations = program.stations.set_index("id")[["name", "lat", "lng"]]\
-        .join(station_data)
+        .join(station_data, how="right")
 
     return stations.sort("trips_total", ascending=False)
     
