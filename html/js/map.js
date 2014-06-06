@@ -19,7 +19,7 @@
     var buildInfo = function () {
         var info = L.control();
         var station_tmpl = _.template($(".tmpl.station").html());
-        var hover_help = "Hover over any station for details. Click on a marker to zoom in."
+        var hover_help = "Hover over any station for details. Double-click on a station to zoom in."
 
         info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info map-control');
@@ -96,7 +96,7 @@
             marker.on({
                 mouseover: function (e) { highlightMarker(e.target, info); },
                 mouseout: function (e) { resetMarker(e.target, info); },
-                click: function (e) { zoomToMarker(e.target, map); },
+                dblclick: function (e) { zoomToMarker(e.target, map); },
                 add: function (e) {
                     marker.$container = $(marker._container);
                 }
@@ -142,6 +142,9 @@
                     });
                     $station.on("mouseout", function (e) {
                         resetMarker(m, info);
+                    });
+                    $station.on("dblclick", function (e) {
+                        zoomToMarker(m, map);
                     });
                     $station.on("click", function (e) {
                         panToMarker(m, map);
