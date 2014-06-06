@@ -38,8 +38,8 @@
     var highlightMarker = function (marker, info) {
         marker._styles = marker.options;
         marker.setStyle({
-            color: "#ffee00",
-            weight: 3,
+            fillColor: "#ffee00",
+            weight: 2,
             opacity: 1
         });
         marker.prevPos = marker.$container.index();
