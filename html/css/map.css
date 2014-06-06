@@ -39,7 +39,7 @@ body, html {
 .leaflet-top.leaflet-right,
 .leaflet-bottom.leaflet-right {
     width: 40%;
-    max-width: 250px;
+    max-width: 275px;
 }
 
 .map-control {
