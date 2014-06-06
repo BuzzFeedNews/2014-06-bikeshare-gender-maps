@@ -57,9 +57,7 @@ body, html {
 }
 
 .station-group {
-    //float: left;
-    padding: 2%;
-    //width: 46%;
+    padding: 2% 1%;
 }
 
 .station-group-name {
