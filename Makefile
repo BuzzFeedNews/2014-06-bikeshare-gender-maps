@@ -29,7 +29,7 @@ boston:
 
 # S3
 
-PROJECT = /projects/2014-05-bikeshare-maps/
+PROJECT = /projects/2014-06-bikeshare-gender-maps/
 
 s3-dev: BUCKET = s3://datadev.buzzfeed.com
 s3-dev: PROFILE = --profile datadev
