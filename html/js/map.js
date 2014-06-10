@@ -200,7 +200,8 @@
     };
 
     var mapStations = function (stations_url, tile_layers, div) {
-        $.getJSON(stations_url, function (stations) {
+        $.get(stations_url, function (csv) {
+            var stations = $.parse(csv).results.rows;
             buildMap(stations, tile_layers, div);
         });
     };

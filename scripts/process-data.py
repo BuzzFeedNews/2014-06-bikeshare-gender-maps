@@ -3,6 +3,7 @@ from bikeshares import programs
 from bikeshares.program import TripSubset
 import pandas as pd
 import argparse
+import json
 import sys
 
 ROUNDING = 4
@@ -18,6 +19,8 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--program", type=get_program)
     parser.add_argument("--trips")
+    parser.add_argument("--filetype", default="geojson",
+        choices=["geojson", "csv"])
     parser.add_argument("--stations")
     parser.add_argument("--date-range", nargs=2)
     args = parser.parse_args()
@@ -48,14 +51,40 @@ def calculate_gender(program, date_range=(None, None)):
     stations = program.stations.set_index("id")[["name", "lat", "lng"]]\
         .join(station_data, how="right")
 
-    return stations.sort("trips_total", ascending=False)
+    stations[["lat", "lng"]] = stations[["lat", "lng"]].applymap(lambda x: round(float(x), 5))
+
+    return stations.sort("trips_total", ascending=False).reset_index()
+
+def station_to_geojson(station):
+    keys = station.keys()
+    geo_keys = [ "lng", "lat" ]
+    ll = [ station[x] for x in geo_keys ]
+    return {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": ll
+        },
+        "properties": dict((k, station[k])
+            for k in set(keys) - set(geo_keys))
+    }
+
+def to_geojson(df):
+    features = map(station_to_geojson, df.to_dict("records"))
+    return {
+        "type": "FeatureCollection",
+        "features": list(f for f in features)
+    }
     
 def main():
     args = parse_args()
     program = args.program()
     program.load_trips(args.trips).load_stations(args.stations)
     calculations = calculate_gender(program, date_range=args.date_range)
-    calculations.to_json(sys.stdout, orient="records")
+    if args.filetype == "csv":
+        calculations.to_csv(sys.stdout, index=False)
+    elif args.filetype == "geojson":
+        json.dump(to_geojson(calculations), sys.stdout)
     
 if __name__ == "__main__":
     main()

@@ -6,24 +6,26 @@ default:
 DATES = 2013-07-01 2013-11-30
 PROCESS = python scripts/process-data.py --date-range $(DATES)
 
-nyc:
-	$(PROCESS) --program nyc \
+nyc: cmd = $(PROCESS) --program nyc \
 	--trips raw-data/nyc-merged.csv \
-	--stations raw-data/nyc-merged.csv \
-	> html/data/nyc.json
+	--stations raw-data/nyc-merged.csv 
+nyc:
+	$(cmd) --filetype geojson > html/data/nyc.geojson
+	$(cmd) --filetype csv > html/data/nyc.csv
 
-chicago:
-	$(PROCESS) --program chicago \
+chicago: cmd = $(PROCESS) --program chicago \
 	--trips raw-data/Divvy_Stations_Trips_2013/Divvy_Trips_2013.csv \
-	--stations raw-data/Divvy_Stations_Trips_2013/Divvy_Stations_2013.csv \
-	> html/data/chicago.json
+	--stations raw-data/Divvy_Stations_Trips_2013/Divvy_Stations_2013.csv
+chicago:
+	$(cmd) --filetype geojson > html/data/chicago.geojson
+	$(cmd) --filetype csv > html/data/chicago.csv
 
-boston:
-	$(PROCESS) --program boston \
+boston: cmd = $(PROCESS) --program boston \
 	--trips raw-data/hubway-updated-26-feb-2014/hubwaydata_10_12_to_11_13.csv \
-	--stations raw-data/hubway-updated-26-feb-2014/stations_10_12_to_11_13.csv \
-	> html/data/boston.json
-
+	--stations raw-data/hubway-updated-26-feb-2014/stations_10_12_to_11_13.csv
+boston:
+	$(cmd) --filetype geojson > html/data/boston.geojson
+	$(cmd) --filetype csv > html/data/boston.csv
 
 # S3
 
