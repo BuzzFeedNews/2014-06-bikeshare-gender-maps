@@ -19,7 +19,7 @@
     var buildInfo = function () {
         var info = L.control();
         var station_tmpl = _.template($(".tmpl.station").html());
-        var hover_help = "Hover over any station for details. Double-click on a station to zoom in."
+        var hover_help = "<b>Hover over any station for details. Double-click on a station to zoom in.</b>"
 
         info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info map-control');
