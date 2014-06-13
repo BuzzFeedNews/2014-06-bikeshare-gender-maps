@@ -52,6 +52,44 @@ body, html {
 .info {
 }
 
+.legend {
+    border-top: 1px dotted #CCC;    
+    padding-top: 0.5em;
+    color: #666;
+}
+
+.legend-text {
+    overflow: auto;
+}
+
+.legend-text span {
+    display: inline-block;
+    float: left;
+    width: 25%;
+}
+
+.legend-text-left {
+    text-align: left;
+}
+
+.legend-text-right {
+    text-align: right;
+}
+
+.legend-text .legend-text-center {
+    text-align: center;
+    width: 50%;
+}
+
+.legend-bars {
+    overflow: auto;    
+}
+
+.legend-bar {
+    height: 10px;
+    float: left;
+}
+
 .station-list {
     overflow: auto;
 }

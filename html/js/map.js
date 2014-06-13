@@ -24,10 +24,44 @@
         return color_scale(pct).hex();
     }; 
 
+    var buildLegend = function () {
+        var holder = L.control({ position: "bottomleft" });
+        var legend = holder._div = L.DomUtil.create("div", "legend map-control");
+        var CHUNKS = 10;
+        var MAX = 0.5;
+        var inner_html = _.map(_.range(10), function (i) {
+            return "<div class='legend-bar' style='width: " + 100/CHUNKS + 
+                "%; background: " + scaleColor(MAX * i / CHUNKS) + "'></div>";
+        }).join("");
+        var html = "<div class='legend-bars'>" + inner_html + "</div>";
+        legend.innerHTML = html;
+        holder.onAdd = function (map) { return this._div; };
+        return holder;
+    };
+
+    var buildLegendHTML = function () {
+        var CHUNKS = 10;
+        var MAX = 0.5;
+        var inner = _.map(_.range(CHUNKS + 1), function (i) {
+            return "<div class='legend-bar' style='width: " + 100/(CHUNKS + 1) + 
+                "%; background: " + scaleColor(MAX * i / CHUNKS) + "'></div>";
+        }).join("");
+        var html = "<div class='legend'>" + 
+            "<div class='legend-bars'>" + inner + "</div>" +
+            "<div class='legend-text'>" + 
+                "<span class='legend-text-left'>0%</span>" + 
+                "<span class='legend-text-center'>Female Ridership</span>" + 
+                "<span class='legend-text-right'>50%+</span>" + 
+            "</div>";
+        return html;
+    };
+
     var buildInfo = function () {
         var info = L.control();
         var station_tmpl = _.template($(".tmpl.station").html());
-        var hover_help = "<b>Hover over any station for details. Double-click on a station to zoom in.</b>"
+        var hover_help = "<div class='helptext'><b>Hover over any station for details. Double-click on a station to zoom in.</b></div>";
+        var legend = buildLegendHTML();
+        var default_html = hover_help + legend;
 
         info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info map-control');
@@ -36,7 +70,7 @@
         };
 
         info.update = function (station) {
-            this._div.innerHTML = station ? station_tmpl(station) : hover_help;
+            this._div.innerHTML = station ? station_tmpl(station) : default_html;
         };
 
         return info;
