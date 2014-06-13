@@ -16,6 +16,14 @@
         return Math.round(num * 100 * mult) / mult;
     };
 
+    var color_scale = chroma.scale(['#00CCFF', "#FFF", '#FF0099'])
+        .domain([0.0, 0.25, 0.50], 20)
+        .mode('lab');
+
+    var scaleColor = function (pct) {
+        return color_scale(pct).hex();
+    }; 
+
     var buildInfo = function () {
         var info = L.control();
         var station_tmpl = _.template($(".tmpl.station").html());
@@ -62,18 +70,10 @@
         map.panTo(marker._latlng);
     };
 
-    var buildMarkers = function(stations, map, info) {
+    var buildMarkers = function (stations, map, info) {
         var trip_totals = _.pluck(stations, "trips_total");
         var max_trips = Math.max.apply(Math.max, trip_totals);
         
-        //var scale = chroma.scale(['#0077EE', '#EE3322'])
-        var scale = chroma.scale(['#00CCFF', "#FFF", '#FF0099'])
-            .domain([0.0, 0.25, 0.50], 20)
-            .mode('lab');
-        var scaleColor = function (pct) {
-            return scale(pct).hex();
-        }; 
-
         var scaleRadius = function (total, max) {
             var pct = total / max;
             var floored = Math.max(0.2, pct);
