@@ -30,13 +30,14 @@ boston:
 # S3
 
 PROJECT = /projects/2014-06-bikeshare-gender-maps/
+S3CMD = aws s3 sync --acl public-read --exclude "assets/*" html/
 
 s3-dev: BUCKET = s3://datadev.buzzfeed.com
 s3-dev: PROFILE = --profile datadev
 s3-dev:
-	aws s3 sync --acl public-read html/ $(BUCKET)$(PROJECT) $(PROFILE)
+	 $(S3CMD) $(BUCKET)$(PROJECT) $(PROFILE)
 
 s3-prod: BUCKET = s3://data.buzzfeed.com
 s3-prod: PROFILE = --profile data
 s3-prod:
-	aws s3 sync --acl public-read html/ $(BUCKET)$(PROJECT) $(PROFILE)
+	$(S3CMD) $(BUCKET)$(PROJECT) $(PROFILE)
