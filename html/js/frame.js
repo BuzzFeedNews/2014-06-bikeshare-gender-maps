@@ -1,6 +1,6 @@
 (function () {
     var city_to_url = function (c) {
-        return "data/" + c + ".csv";
+        return "data/" + (c || "nyc") + ".csv";
     };
 
     var layer_types = {
