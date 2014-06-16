@@ -59,7 +59,10 @@
     var buildInfo = function () {
         var info = L.control();
         var station_tmpl = _.template($(".tmpl.station").html());
-        var hover_help = "<div class='helptext'><b>Hover over any station for details. Double-click on a station to zoom in.</b></div>";
+        var hover_help = "<div class='helptext'>" +
+            "<span class='helptext-main'>Hover over any station for details. Double-click on a station to zoom in.</span>" +
+            "<span class='helptext-mobile'>Tap on any station for details.</span>" +
+        "</div>";
         var legend = buildLegendHTML();
         var default_html = hover_help + legend;
 

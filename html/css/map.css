@@ -52,14 +52,33 @@ body, html {
 .info {
 }
 
+.helptext-main {
+    font-weight: bold;    
+}
+
+.helptext-mobile {
+    display: none;    
+}
+
+@media (max-width: 500px) {
+    .helptext-main {
+        display: none;    
+    }
+    .helptext-mobile {
+        display: inline;    
+    }
+}
+
 .legend {
     border-top: 1px dotted #CCC;    
     padding-top: 0.5em;
     color: #666;
+    line-height: 1;
 }
 
 .legend-text {
     overflow: auto;
+    padding-top: 0.1em;
 }
 
 .legend-text span {
@@ -156,3 +175,4 @@ body, html {
         display: block;
     }
 }
+
