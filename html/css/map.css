@@ -169,7 +169,7 @@ body, html {
     display: none;
 }
 
-@media (min-height: 500px) {
+@media (min-width: 500px) {
     .iframed-map-holder .top-stations {
         display: block;
     }
