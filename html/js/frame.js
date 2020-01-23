@@ -1,7 +1,12 @@
 (function () {
-    var city_to_url = function (c) {
-        return "data/" + (c || "nyc") + ".csv";
-    };
+    var VALID_CITIES = [
+        "nyc",
+        "boston",
+        "chicago",
+    ]
+
+    // Use fastly HTTPS endpoint
+    stamen.tile.providers["toner"].url = "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png";
 
     var layer_types = {
         toner: function () {
@@ -14,7 +19,11 @@
     var layers = [ layer_types.toner ];
 
     var mapFromCity = function (city) {
-        var url = city_to_url(city);
+        var city = city || "nyc";
+
+        if (VALID_CITIES.indexOf(city) < 0) { return; }
+
+        var url = "data/" + city  + ".csv";
 
         var initialized_layers = _.map(layers, function (layer) {
             return layer();
